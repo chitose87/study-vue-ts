@@ -9,6 +9,9 @@
             img(v-bind:src="img" alt="")
 
         .slider__ui
+          button.slider__prev(v-on:click="onTop()")
+            | 最初へ
+
           button.slider__prev(v-on:click="onPrev()")
             | 前へ
           span.slider__num
@@ -17,6 +20,10 @@
             span.slider__total(v-html="imgList.length")
           button.slider__next(v-on:click="onNext()")
             | 次へ
+
+          button.slider__next(v-on:click="onLast()")
+            | 最後へ
+
 
 </template>
 
@@ -49,6 +56,11 @@ export default class HogePage extends Vue {
     console.log("mounted", "初期化されたよ");
   }
 
+  onTop() {
+    this.currentValue = 1;
+    this.percent = this.getPercentValue(this.currentValue);
+  }
+
   /**
    * template の v-on:click="onPrev()"
    */
@@ -70,10 +82,16 @@ export default class HogePage extends Vue {
     }
   }
 
+  onLast() {
+    this.currentValue = this.imgList.length;
+    this.percent = this.getPercentValue(this.currentValue);
+  }
+
   /**
    * ％の計算をする
    */
   private getPercentValue(current: number) {
+    console.log("getPercentValue", current);
     let a = (current - 1) * -100;
     console.log("getPercentValue", a);
     return a;
